@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Netoriz — Sites & Commandes pour commerçants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#05070D;
+  --s1:#0C1120;
+  --s2:#111827;
+  --b:rgba(255,255,255,0.06);
+  --b2:rgba(255,255,255,0.1);
+  --blue:#4F8EF7;
+  --purple:#8B5CF6;
+  --cyan:#06B6D4;
+  --green:#22C55E;
+  --t:#F0F4FF;
+  --m:#6B7A99;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
+
+/* NOISE + GRID BG */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(ellipse 100% 60% at 50% -10%, rgba(79,142,247,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(139,92,246,0.08) 0%, transparent 60%),
+    linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
+  background-size:100% 100%, 100% 100%, 80px 80px, 80px 80px;
+}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 32px;position:relative;z-index:1;}
+a{color:inherit;text-decoration:none;}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
+.r.on{opacity:1;transform:none;}
+.rl{opacity:0;transform:translateX(-30px);transition:opacity .65s ease,transform .65s ease;}
+.rl.on{opacity:1;transform:none;}
+.rr{opacity:0;transform:translateX(30px);transition:opacity .65s ease,transform .65s ease;}
+.rr.on{opacity:1;transform:none;}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}.d4{transition-delay:.32s;}.d5{transition-delay:.4s;}.d6{transition-delay:.48s;}
+
+/* ===== NAV ===== */
+nav{position:sticky;top:0;z-index:200;background:rgba(5,7,13,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);}
+.nav-i{max-width:1000px;margin:0 auto;padding:0 32px;height:60px;display:flex;justify-content:space-between;align-items:center;}
+.logo{font-size:16px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:8px;}
+.logo-icon{
+  width:30px;height:30px;border-radius:8px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;color:#fff;
+  box-shadow:0 0 20px rgba(79,142,247,0.5);
+}
+.logo em{font-style:normal;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-right{display:flex;align-items:center;gap:4px;}
+.nav-link{color:var(--m);font-size:13px;font-weight:500;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .15s;}
+.nav-link:hover{color:var(--t);background:var(--b);}
+.nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:8px 18px;border-radius:7px;margin-left:8px;cursor:pointer;transition:all .2s;}
+.nav-cta:hover{background:#3d7be5;box-shadow:0 4px 20px rgba(79,142,247,0.4);}
+
+/* ===== HERO ===== */
+.hero{display:flex;flex-direction:column;justify-content:center;padding:32px 0 32px;position:relative;}
+
+/* Ambient glow behind hero */
+.hero::after{content:"";position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(79,142,247,0.08) 0%,transparent 70%);pointer-events:none;}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.2);
+  border-radius:999px;padding:6px 14px;
+  font-size:12px;font-weight:600;color:var(--blue);
+  margin-bottom:32px;width:fit-content;
+}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+h1{
+  font-size:72px;font-weight:900;line-height:1.0;letter-spacing:-.04em;
+  margin-bottom:28px;max-width:820px;
+}
+h1 .line2{
+  display:block;
+  background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 50%,var(--cyan) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200% 200%;
+  animation:gradshift 4s ease infinite;
+}
+@keyframes gradshift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+.hero-sub{font-size:18px;color:var(--m);max-width:520px;line-height:1.7;margin-bottom:24px;}
+.hero-sub strong{color:var(--t);}
+
+.hero-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.btn-main{
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:#fff;font-size:15px;font-weight:700;
+  padding:14px 28px;border-radius:10px;border:none;
+  cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 30px rgba(79,142,247,0.4);
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(79,142,247,0.55);}
+.btn-sec{
+  color:var(--t);font-size:14px;font-weight:600;
+  padding:14px 24px;border-radius:10px;border:1px solid var(--b2);
+  cursor:pointer;font-family:inherit;background:transparent;
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+  position:relative;overflow:hidden;
+}
+.btn-sec:hover{border-color:var(--blue);color:var(--blue);}
+.btn-sec.active{
+  border-color:var(--blue);
+  color:var(--blue);
+  background:rgba(79,142,247,0.08);
+  box-shadow:0 0 0 1px rgba(79,142,247,0.25), 0 4px 20px rgba(79,142,247,0.15);
+}
+
+/* TRUST STRIPE */
+.trust{display:flex;gap:28px;align-items:center;}
+.trust-i{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--m);}
+.trust-check{width:16px;height:16px;border-radius:50%;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green);}
+
+/* ===== MARQUEE ===== */
+.marquee-wrap{margin:0 -32px;overflow:hidden;border-top:1px solid var(--b);border-bottom:1px solid var(--b);background:rgba(255,255,255,.02);padding:14px 0;}
+.marquee-track{display:flex;gap:0;animation:marquee 25s linear infinite;width:max-content;}
+.marquee-item{display:flex;align-items:center;gap:10px;padding:0 32px;font-size:13px;color:var(--m);white-space:nowrap;border-right:1px solid var(--b);}
+.marquee-item span{color:var(--t);font-weight:600;}
+.marquee-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%)}}
+
+/* ===== PANEL TOGGLE ===== */
+.panel{display:none;margin-top:24px;background:var(--s1);border:1px solid var(--b2);border-left:2px solid var(--blue);border-radius:12px;padding:24px;animation:fadeUp .25s ease;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+.panel p{font-size:14px;color:var(--m);line-height:1.75;margin-bottom:10px;}
+.panel p:last-child{margin-bottom:0;}
+.panel b{color:var(--t);}
+.panel .btn-main{margin-top:14px;font-size:13px;padding:11px 22px;}
+
+/* ===== LIVE DEMO SECTION ===== */
+.demo{padding:40px 0;position:relative;}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.demo-text{}
+.demo-phones{position:relative;display:flex;justify-content:center;align-items:flex-start;}
+.cbox-panel{display:none;}
+.cbox-panel.active{display:block;}
+
+/* CONTACT FLOTTANT */
+.contact-fab{
+  position:fixed;bottom:28px;right:28px;z-index:499;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:#fff;border:none;border-radius:999px;
+  padding:14px 22px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 32px rgba(79,142,247,.5);
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s;
+}
+.contact-fab:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(79,142,247,.6);}
+.contact-fab-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse2 2s infinite;}
+
+/* CONTACT MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--s1);border:1px solid var(--b2);
+  border-radius:20px;width:100%;max-width:480px;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(79,142,247,.1);
+  animation:modalIn .3s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px);}to{opacity:1;transform:none;}}
+.modal-hdr{
+  padding:24px 24px 0;
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.modal-hdr-left .modal-icon{font-size:28px;margin-bottom:6px;}
+.modal-hdr-left .modal-title{font-size:18px;font-weight:800;color:var(--t);}
+.modal-hdr-left .modal-sub{font-size:13px;color:var(--m);margin-top:4px;}
+.modal-close{
+  background:rgba(255,255,255,.06);border:1px solid var(--b);
+  color:var(--m);width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;flex-shrink:0;transition:all .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.1);color:var(--t);}
+.modal-body{padding:20px 24px 28px;}
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:#fff;border:none;border-radius:999px;
+  padding:14px 22px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 32px rgba(79,142,247,.5);
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s;
+}
+.contact-fab:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(79,142,247,.6);}
+.contact-fab-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse2 2s infinite;}
+
+/* CONTACT DRAWER */
+.contact-drawer{
+  position:fixed;bottom:0;right:0;z-index:499;
+  width:420px;max-width:calc(100vw - 32px);
+  background:var(--s1);border:1px solid var(--b2);
+  border-radius:16px 16px 0 0;
+  box-shadow:0 -10px 60px rgba(0,0,0,.6);
+  transform:translateY(100%);transition:transform .35s ease;
+  overflow:hidden;
+}
+.contact-drawer.open{transform:translateY(0);}
+.drawer-hdr{
+  padding:16px 20px;border-bottom:1px solid var(--b);
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(79,142,247,.05);
+}
+.drawer-title{font-size:14px;font-weight:700;color:var(--t);}
+.drawer-close{background:none;border:none;color:var(--m);font-size:20px;cursor:pointer;padding:0 4px;line-height:1;}
+.drawer-body{padding:20px;max-height:70vh;overflow-y:auto;}
+
+/* PHONE */
+.phone-frame{
+  width:220px;height:440px;
+  background:linear-gradient(180deg,#1C1C2E 0%,#0D0D1A 100%);
+  border-radius:38px;
+  border:6px solid #2A2A3D;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 50px 100px rgba(0,0,0,.7),
+    0 0 80px rgba(79,142,247,0.12),
+    inset 0 0 0 1px rgba(255,255,255,0.03);
+  position:absolute;top:30px;left:50%;transform:translateX(-50%);
+  overflow:hidden;z-index:2;
+}
+.phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#0D0D1A;border-radius:0 0 14px 14px;z-index:10;}
+.phone-slides{width:100%;height:100%;position:relative;padding-top:20px;}
+.pslide{position:absolute;inset:0;padding-top:20px;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s;}
+.pslide.on{opacity:1;transform:none;}
+
+/* SLIDE FOOD TRUCK */
+.sft{background:linear-gradient(180deg,#1A1200,#0A0800);}
+.sft-hdr{padding:20px 14px 12px;text-align:center;}
+.sft-logo{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#D4880A,#FFD700);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.sft-name{font-size:10px;font-weight:800;color:#FFD700;letter-spacing:.06em;}
+.sft-time{font-size:7.5px;color:rgba(255,215,0,.45);margin-top:2px;}
+.sft-cta{margin:10px auto 0;background:#FFD700;color:#1a1200;border-radius:20px;padding:7px 18px;font-size:9px;font-weight:800;display:inline-block;}
+.sft-menu{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:12px 10px;}
+.sft-item{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.1);border-radius:8px;padding:7px;}
+.sft-img{height:26px;border-radius:4px;margin-bottom:5px;background:linear-gradient(135deg,#2a1800,#1a1000);}
+.sft-iname{font-size:7.5px;color:#fff;font-weight:600;}
+.sft-iprice{font-size:8.5px;color:#FFD700;font-weight:700;margin-top:1px;}
+
+/* SLIDE SALON */
+.ssl{background:linear-gradient(180deg,#100818,#080410);}
+.ssl-hdr{padding:22px 14px 10px;text-align:center;}
+.ssl-em{font-size:22px;margin-bottom:5px;}
+.ssl-name{font-size:10px;font-weight:800;color:#D8A0FF;letter-spacing:.06em;}
+.ssl-cat{font-size:7.5px;color:rgba(216,160,255,.4);margin-top:2px;}
+.ssl-list{padding:8px 10px;display:flex;flex-direction:column;gap:4px;}
+.ssl-row{background:rgba(216,160,255,.05);border:1px solid rgba(216,160,255,.1);border-radius:7px;padding:7px 10px;display:flex;justify-content:space-between;}
+.ssl-rn{font-size:8px;color:#fff;font-weight:600;}
+.ssl-rp{font-size:8.5px;color:#D8A0FF;font-weight:700;}
+.ssl-btn{margin:8px 10px;background:linear-gradient(135deg,#9B5FFF,#C87AFF);color:#fff;border-radius:20px;padding:7px;font-size:9px;font-weight:700;text-align:center;}
+
+/* SLIDE JARDINAGE */
+.sjr{background:linear-gradient(180deg,#071408,#030B03);}
+.sjr-hdr{padding:22px 14px 10px;text-align:center;}
+.sjr-em{font-size:22px;margin-bottom:5px;}
+.sjr-name{font-size:10px;font-weight:800;color:#5FE878;letter-spacing:.06em;}
+.sjr-sub{font-size:7.5px;color:rgba(95,232,120,.4);margin-top:2px;}
+.sjr-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:10px;}
+.sjr-card{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-radius:8px;padding:8px;text-align:center;}
+.sjr-ic{font-size:14px;margin-bottom:3px;}
+.sjr-cn{font-size:7.5px;color:#fff;font-weight:600;}
+.sjr-cp{font-size:8.5px;color:#5FE878;font-weight:700;margin-top:2px;}
+.sjr-btn{margin:6px 10px 0;background:#22C55E;color:#fff;border-radius:20px;padding:7px;font-size:9px;font-weight:700;text-align:center;}
+
+/* PHONE TABS */
+.ptabs{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;}
+.ptab{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;}
+.ptab.on{width:20px;border-radius:4px;background:var(--blue);}
+
+/* FLOATING NOTIFS */
+.notif{
+  position:absolute;
+  background:rgba(12,17,32,.95);backdrop-filter:blur(12px);
+  border:1px solid var(--b2);border-radius:12px;padding:10px 14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  font-size:11px;z-index:5;pointer-events:none;
+}
+.notif-hd{font-size:9.5px;color:var(--m);margin-bottom:3px;display:flex;align-items:center;gap:5px;}
+.notif-live{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse2 1.5s infinite;}
+.notif-val{font-weight:700;color:var(--t);font-size:12px;}
+.notif1{right:12px;top:12px;animation:floatIn 5s ease infinite;}
+.notif2{left:12px;bottom:12px;animation:floatIn2 6s ease 2.5s infinite;}
+@keyframes floatIn{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes floatIn2{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+
+/* SLIDE LABEL */
+.slide-lbl{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  background:var(--s2);border:1px solid var(--b2);
+  border-radius:20px;padding:4px 14px;font-size:11px;color:var(--m);font-weight:600;white-space:nowrap;z-index:10;
+}
+
+/* ===== COMPARE ===== */
+.compare{margin-top:0;padding:48px 0;border-top:1px solid var(--b);}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;}
+.cbox{border-radius:14px;overflow:hidden;border:1px solid var(--b);}
+.cbox-hd{padding:12px 16px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px;}
+.cbox.bad .cbox-hd{background:rgba(239,68,68,.08);color:#F87171;border-bottom:1px solid rgba(239,68,68,.15);}
+.cbox.good .cbox-hd{background:rgba(79,142,247,.08);color:var(--blue);border-bottom:1px solid rgba(79,142,247,.15);}
+.cbox-body{padding:20px;background:var(--s1);}
+
+/* FB MOCK */
+.fb{border-radius:8px;overflow:hidden;background:#18191A;}
+.fb-cv{height:60px;background:linear-gradient(135deg,#1e3a6e,#2a5298);}
+.fb-av{width:36px;height:36px;border-radius:50%;background:#3a7ee8;border:3px solid #18191A;margin:-18px 0 0 14px;}
+.fb-inf{padding:22px 14px 10px;}
+.fb-n{font-size:11px;font-weight:700;color:#E4E6EB;}
+.fb-c{font-size:9px;color:#B0B3B8;margin-top:1px;}
+.fb-post{padding:8px 14px 14px;}
+.fb-txt{font-size:8.5px;color:#B0B3B8;line-height:1.5;margin-bottom:6px;}
+.fb-pimg{height:40px;background:rgba(255,255,255,.04);border-radius:4px;}
+.fb-tags{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
+.fb-tag{background:rgba(239,68,68,.1);color:#F87171;font-size:7.5px;padding:2px 7px;border-radius:4px;}
+
+/* NETORIZ MOCK */
+.nm{border-radius:8px;overflow:hidden;background:#080B12;border:1px solid rgba(79,142,247,.12);}
+.nm-nav{padding:8px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(79,142,247,.08);}
+.nm-nl{font-size:9px;font-weight:800;color:var(--blue);}
+.nm-nb{background:var(--blue);color:#fff;font-size:7px;font-weight:700;padding:3px 8px;border-radius:4px;}
+.nm-hero{padding:10px 12px;background:linear-gradient(135deg,rgba(79,142,247,.06),transparent);}
+.nm-h1{font-size:10px;font-weight:800;color:#fff;margin-bottom:2px;}
+.nm-desc{font-size:7.5px;color:rgba(255,255,255,.35);margin-bottom:6px;}
+.nm-cta{background:var(--blue);color:#fff;font-size:7px;font-weight:700;padding:4px 10px;border-radius:4px;display:inline-block;}
+.nm-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px 10px;}
+.nm-card{background:rgba(255,255,255,.03);border:1px solid rgba(79,142,247,.08);border-radius:5px;padding:5px;}
+.nm-cimg{height:18px;background:linear-gradient(135deg,rgba(79,142,247,.15),rgba(79,142,247,.04));border-radius:3px;margin-bottom:3px;}
+.nm-cn{font-size:6.5px;color:#fff;font-weight:600;}
+.nm-cp{font-size:7px;color:var(--blue);font-weight:700;margin-top:1px;}
+.nm-tags{display:flex;gap:4px;padding:0 10px 8px;flex-wrap:wrap;}
+.nm-tag{background:rgba(79,142,247,.1);color:var(--blue);font-size:7.5px;padding:2px 7px;border-radius:4px;}
+
+/* ===== FEATURES ALT LAYOUT ===== */
+.feat-alt{padding:48px 0;border-top:1px solid var(--b);}
+.feat-row{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:80px;}
+.feat-row:last-child{margin-bottom:0;}
+.feat-row.rev{direction:rtl;}
+.feat-row.rev > *{direction:ltr;}
+.feat-num{font-family:var(--mono);font-size:11px;color:var(--blue);font-weight:500;margin-bottom:16px;opacity:.7;}
+.feat-title{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;line-height:1.25;}
+.feat-title em{font-style:normal;color:var(--blue);}
+.feat-desc{font-size:15px;color:var(--m);line-height:1.75;margin-bottom:20px;}
+.feat-checks{display:flex;flex-direction:column;gap:8px;}
+.feat-check{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--m);}
+.feat-check-icon{width:18px;height:18px;border-radius:4px;background:rgba(79,142,247,.12);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:2px;}
+
+/* FEATURE VISUAL BOXES */
+.feat-visual{border-radius:16px;overflow:hidden;border:1px solid var(--b2);background:var(--s1);padding:24px;position:relative;}
+.feat-visual::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,142,247,.05),transparent);pointer-events:none;}
+
+/* Admin panel visual */
+.admin-visual{}
+.admin-tabs{display:flex;gap:6px;margin-bottom:16px;}
+.admin-tab{font-size:10px;padding:5px 12px;border-radius:6px;font-weight:600;cursor:default;}
+.admin-tab.on{background:rgba(79,142,247,.15);color:var(--blue);border:1px solid rgba(79,142,247,.25);}
+.admin-tab.off{background:var(--s2);color:var(--m);border:1px solid var(--b);}
+.admin-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--s2);border:1px solid var(--b);border-radius:8px;margin-bottom:6px;}
+.admin-rname{font-size:12px;color:var(--t);font-weight:600;}
+.admin-rbadge{font-size:10px;padding:2px 10px;border-radius:20px;font-weight:600;}
+.admin-rbadge.new{background:rgba(34,197,94,.1);color:var(--green);}
+.admin-rbadge.done{background:rgba(255,255,255,.04);color:var(--m);}
+
+/* Phone in features */
+.feat-phone-mini{
+  width:140px;height:280px;
+  background:#0D0D1A;border-radius:24px;border:5px solid #1E1E2E;
+  margin:0 auto;overflow:hidden;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px rgba(79,142,247,.1);
+}
+.feat-phone-mini::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:48px;height:14px;background:#0D0D1A;border-radius:0 0 10px 10px;z-index:10;}
+
+/* Domain badge visual */
+.domain-visual{text-align:center;}
+.domain-pill{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--b2);border-radius:999px;padding:8px 18px;margin-bottom:14px;}
+.domain-lock{font-size:12px;}
+.domain-url{font-family:var(--mono);font-size:14px;color:var(--t);font-weight:500;}
+.domain-url span{color:var(--blue);}
+.domain-desc{font-size:12px;color:var(--m);margin-bottom:20px;}
+.domain-steps{display:flex;flex-direction:column;gap:8px;}
+.domain-step{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--m);}
+.domain-step-num{width:20px;height:20px;border-radius:50%;background:rgba(79,142,247,.12);color:var(--blue);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ===== REALISATION ===== */
+.real-s{padding:48px 0;border-top:1px solid var(--b);}
+.real-card{
+  margin-top:36px;border-radius:16px;overflow:hidden;
+  border:1px solid var(--b2);
+  background:var(--s1);
+  display:grid;grid-template-columns:300px 1fr;
+  transition:border-color .3s,box-shadow .3s;
+}
+.real-card:hover{border-color:rgba(79,142,247,.3);box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.real-preview{background:linear-gradient(180deg,#1a1200,#080600);padding:20px;position:relative;}
+.real-preview-logo{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D4880A,#FFD700);display:flex;align-items:center;justify-content:center;font-size:14px;margin:0 auto 8px;}
+.real-preview-name{font-size:9px;font-weight:800;color:#FFD700;text-align:center;letter-spacing:.06em;}
+.real-preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:14px;}
+.real-preview-feat{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.1);border-radius:6px;padding:5px;text-align:center;font-size:7px;color:#FFD700;}
+.real-info{padding:32px;}
+.real-name{font-size:20px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px;letter-spacing:-.01em;}
+.real-tag{font-size:10px;font-weight:700;background:rgba(79,142,247,.1);color:var(--blue);padding:3px 12px;border-radius:20px;}
+.real-desc{font-size:13px;color:var(--m);margin-bottom:18px;line-height:1.7;}
+.real-stack{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px;}
+.real-tech{font-size:11px;background:var(--s2);border:1px solid var(--b);padding:4px 11px;border-radius:20px;color:var(--m);}
+.real-link{color:var(--blue);font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;transition:gap .15s;}
+.real-link:hover{gap:10px;}
+
+/* ===== PRICING ===== */
+.price-s{padding:48px 0;border-top:1px solid var(--b);}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;}
+.price-card{
+  background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:28px;
+  position:relative;transition:all .25s;
+}
+.price-card:hover{border-color:rgba(79,142,247,.3);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.4);}
+.price-card.featured{
+  border-color:var(--blue);
+  background:linear-gradient(180deg,rgba(79,142,247,.06),var(--s1));
+  box-shadow:0 0 0 1px rgba(79,142,247,.2),0 20px 60px rgba(79,142,247,.08);
+}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap;}
+.price-name{font-size:12px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;}
+.price-amount{font-size:36px;font-weight:900;color:var(--t);letter-spacing:-.03em;margin-bottom:4px;font-family:var(--mono);}
+.price-amount sup{font-size:18px;vertical-align:super;}
+.price-delay{font-size:12px;color:var(--m);margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--b);}
+.price-items{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:22px;}
+.price-item{font-size:13px;color:var(--m);display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.price-item-dot{width:16px;height:16px;border-radius:4px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;margin-top:2px;}
+.price-opts{border-top:1px solid var(--b);padding-top:16px;}
+.price-opts-title{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--m);font-weight:700;margin-bottom:10px;}
+.price-opt{font-size:12px;color:var(--m);padding:4px 0;display:flex;align-items:center;gap:6px;}
+.price-opt:before{content:"＋";font-size:10px;color:var(--blue);}
+.price-cta{display:block;text-align:center;background:var(--b2);color:var(--t);font-size:13px;font-weight:700;padding:12px;border-radius:8px;margin-top:22px;cursor:pointer;transition:all .2s;border:1px solid var(--b);}
+.price-card.featured .price-cta{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;box-shadow:0 4px 20px rgba(79,142,247,.3);}
+.price-cta:hover{opacity:.9;transform:translateY(-1px);}
+
+/* ===== CONTACT ===== */
+.contact-s{padding:48px 0;border-top:1px solid var(--b);}
+.contact-box{background:var(--s1);border:1px solid var(--b2);border-radius:16px;padding:40px;margin-top:32px;position:relative;overflow:hidden;}
+.contact-box::before{content:"";position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(79,142,247,0.08),transparent 70%);pointer-events:none;}
+.frow{margin-bottom:16px;}
+.frow label{display:block;font-size:12px;color:var(--m);margin-bottom:6px;font-weight:600;letter-spacing:.04em;}
+.frow input,.frow textarea{width:100%;background:var(--bg);border:1px solid var(--b);border-radius:8px;color:var(--t);padding:12px 14px;font-family:inherit;font-size:14px;transition:all .2s;}
+.frow input:focus,.frow textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.1);}
+.frow textarea{resize:vertical;min-height:110px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.fstatus{font-size:13px;margin-top:14px;color:var(--blue);}
+.submit-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;padding:14px 30px;font-size:14px;font-weight:700;border-radius:9px;cursor:pointer;font-family:inherit;box-shadow:0 4px 24px rgba(79,142,247,.35);transition:all .2s;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,142,247,.45);}
+.submit-btn:disabled{opacity:.6;cursor:default;transform:none;}
+
+/* ===== VIGNETTES TABS ===== */
+.vignettes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px;}
+.vignette{
+  background:var(--s1);border:1px solid var(--b);border-radius:14px;
+  padding:20px 18px;cursor:pointer;transition:all .2s;text-align:center;
+  position:relative;overflow:hidden;
+}
+.vignette:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,142,247,.06),transparent);opacity:0;transition:opacity .2s;}
+.vignette:hover{border-color:rgba(79,142,247,.3);transform:translateY(-2px);}
+.vignette:hover:before{opacity:1;}
+.vignette.on{border-color:var(--blue);background:rgba(79,142,247,.06);box-shadow:0 0 0 1px rgba(79,142,247,.15),0 8px 24px rgba(79,142,247,.1);}
+.vignette.on:before{opacity:1;}
+.vignette-icon{font-size:26px;margin-bottom:10px;}
+.vignette-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:4px;}
+.vignette-desc{font-size:11px;color:var(--m);}
+.vignette-line{position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--blue);opacity:0;transition:opacity .2s;}
+.vignette.on .vignette-line{opacity:1;}
+
+/* 2 vignettes (avant/apres) */
+.vignettes-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;}
+.vignette-2{
+  background:var(--s1);border:1px solid var(--b);border-radius:12px;
+  padding:16px 20px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:12px;
+}
+.vignette-2:hover{border-color:rgba(79,142,247,.3);}
+.vignette-2.bad.on{border-color:#F87171;background:rgba(239,68,68,.05);}
+.vignette-2.good.on{border-color:var(--blue);background:rgba(79,142,247,.05);}
+.vignette-2-icon{font-size:20px;}
+.vignette-2-text .title{font-size:13px;font-weight:700;color:var(--t);}
+.vignette-2-text .sub{font-size:11px;color:var(--m);margin-top:2px;}
+
+/* Panel commun */
+.v-panel{display:none;margin-top:14px;border-radius:12px;padding:28px;animation:fadeUp .25s ease;}
+.v-panel.on{display:block;}
+
+/* FAQ */
+.faq-s{padding:48px 0;border-top:1px solid var(--b);}
+.faq-list{margin-top:28px;display:flex;flex-direction:column;gap:10px;}
+.faq-item{background:var(--s1);border:1px solid var(--b);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.faq-item.open{border-color:rgba(79,142,247,.3);}
+.faq-q{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:16px;}
+.faq-q-text{font-size:15px;font-weight:600;color:var(--t);line-height:1.4;}
+.faq-icon{width:24px;height:24px;border-radius:50%;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--blue);flex-shrink:0;transition:transform .25s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(79,142,247,.2);}
+.faq-a{display:none;padding:0 20px 18px;font-size:14px;color:var(--m);line-height:1.75;border-top:1px solid var(--b);}
+.faq-a p{margin-top:14px;}
+.faq-item.open .faq-a{display:block;}
+footer{padding:48px 0;border-top:1px solid var(--b);text-align:center;}
+.foot-logo{font-size:20px;font-weight:900;letter-spacing:-.03em;margin-bottom:8px;}
+.foot-logo em{font-style:normal;color:var(--blue);}
+.foot-sub{font-size:13px;color:var(--m);}
+
+@media(max-width:800px){
+  h1{font-size:42px;}
+  .demo-grid,.compare-grid,.feat-row,.price-grid,.real-card{grid-template-columns:1fr;}
+  .real-card .real-preview{display:none;}
+  .demo-phones{display:none;}
+  .feat-row.rev{direction:ltr;}
+  .fgrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-i">
+    <div class="logo"><div class="logo-icon">N</div>Neto<em>riz</em></div>
+    <div class="nav-right">
+      <span class="nav-link" onclick="scrollToAbout(event)">À propos</span>
+      <span class="nav-link" onclick="scrollToId(event,'demo-s')">Démo live</span>
+      <span class="nav-link" onclick="scrollToId(event,'price-s')">Formules</span>
+      <a class="nav-cta" href="#" onclick="toggleDrawer()">Discutons →</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-tag r"><div class="hero-tag-dot"></div>Disponible pour de nouveaux projets</div>
+  <h1 class="r d1">
+    Votre commerce mérite<br>
+    <span class="line2">mieux qu'une page Facebook</span>
+  </h1>
+  <p class="hero-sub r d2">Des vrais outils, des vrais résultats <strong>sans payer des milliers d'euros</strong>. J'aide les commerçants et petites entreprises à franchir le cap du digital avec des solutions simples, intuitives, et pensées pour vous.</p>
+  <div class="hero-actions r d3">
+    <button class="btn-sec" onclick="toggleAbout(this)">À propos de moi</button>
+    <button class="btn-sec" onclick="toggleDigital(this)">Pourquoi un site ?</button>
+    <a class="btn-main" href="#" onclick="toggleDrawer()">Lancer mon projet →</a>
+  </div>
+
+  <div class="panel" id="aboutPanel">
+    <p>Romain, 34 ans, passionné par le digital et les nouvelles technologies.</p>
+    <p>Tout a commencé en aidant un ami à lancer son food truck, et notamment à s'implanter sur internet.<br>Il avait un super projet, mais zéro présence en ligne...</p>
+    <p>Passer d'une simple page Facebook et Instagram à un vrai outil digital.<br>Un projet pensé, testé, utilisé chaque semaine sur le terrain.<br>Ensemble on a construit son site, son système de commande, sa gestion de stock.<br>Résultat : un outil créé par quelqu'un qui connaît les vraies contraintes du terrain.</p>
+    <p>Ce projet m'a ouvert les yeux sur une réalité simple : les petits commerçants locaux ont les mêmes besoins que les grandes enseignes, mais pas les mêmes budgets. Ce déséquilibre, c'est exactement ce que je cherche à corriger.</p>
+    <p>Aujourd'hui je propose ce même savoir-faire à d'autres commerçants.<br>Simple, abordable, sans compromis sur la qualité.</p>
+  </div>
+  <div class="panel" id="digitalPanel">
+    <p><b>Votre commerce mérite mieux qu'une page Facebook.</b></p>
+    <p>Une page Facebook se noie dans un fil d'actualité que personne ne contrôle malheureusement..<br>Elle dépend des algorithmes, et du bon vouloir d'une plateforme qui peut tout changer du jour au lendemain.</p>
+    <p>Un site, c'est chez vous, toujours accessible, toujours à jour.<br>Et qui inspire confiance dès la première seconde.</p>
+    <p>Food truck, Restauration, boulangerie, salon, ménage, jardinage...<br>Peu importe votre secteur, avoir une présence en ligne n'est plus une option, c'est même important.<br>C'est ce qui vous permet d'être trouvé, de prendre des commandes, des rendez-vous et de vous démarquer tout simplement.</p>
+    <p>Ce que je vous propose, c'est un outil simple et intuitif que vous prenez en main dès le premier jour.<br>Pas besoin de formation, pas de technicité.<br>Juste votre activité, en ligne, qui tourne pour vous.</p>
+    <p><b>Alors, qu'attendez-vous ?</b></p>
+    <a class="btn-main" href="#" onclick="toggleDrawer()" style="display:inline-flex;margin-top:14px;font-size:13px;padding:11px 22px;">Lancer mon projet →</a>
+  </div>
+
+  <div class="trust r d4">
+    <div class="trust-i"><div class="trust-check">✓</div>Hébergement gratuit</div>
+    <div class="trust-i"><div class="trust-check">✓</div>Sans engagement</div>
+    <div class="trust-i"><div class="trust-check">✓</div>Réponse sous 48h</div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mtrack">
+    <div class="marquee-item"><div class="marquee-dot"></div>Food truck<span> · Commande en ligne</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Boulangerie<span> · Vitrine + menu</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Salon de coiffure<span> · Prise de rendez-vous</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Jardinage<span> · Devis en ligne</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Ménage à domicile<span> · Réservation</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Traiteur<span> · Commande + livraison</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Boutique<span> · Vitrine pro</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Prestataire<span> · Site sur-mesure</span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><div class="marquee-dot"></div>Food truck<span> · Commande en ligne</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Boulangerie<span> · Vitrine + menu</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Salon de coiffure<span> · Prise de rendez-vous</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Jardinage<span> · Devis en ligne</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Ménage à domicile<span> · Réservation</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Traiteur<span> · Commande + livraison</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Boutique<span> · Vitrine pro</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Prestataire<span> · Site sur-mesure</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ===== LIVE DEMO ===== -->
+<div class="demo" id="demo-s">
+  <div class="demo-grid" style="align-items:center;">
+    <div class="demo-text">
+      <div class="section-eye r" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;">
+        <span style="width:20px;height:2px;background:var(--blue);display:inline-block;box-shadow:0 0 6px var(--blue);"></span>
+        Démo live
+      </div>
+      <h2 class="r d1" style="font-size:36px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px;line-height:1.2;">Votre site tel que <em style="font-style:normal;color:var(--blue);">vos clients le voient</em></h2>
+      <p class="r d2" style="font-size:15px;color:var(--m);line-height:1.75;margin-bottom:28px;">3 exemples de secteurs différents — cliquez sur le vôtre pour voir à quoi ressemblerait votre site.</p>
+      <div class="r d3" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--s1);border:1px solid var(--b);border-radius:10px;cursor:pointer;" onclick="goSlide(0)">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,215,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🍗</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--t);">Food truck & restauration</div><div style="font-size:11px;color:var(--m);">Menu, commande en ligne, horaires</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--s1);border:1px solid var(--b);border-radius:10px;cursor:pointer;" onclick="goSlide(1)">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(216,160,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;">💆</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--t);">Salon & bien-être</div><div style="font-size:11px;color:var(--m);">Prestations, réservation, tarifs</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--s1);border:1px solid var(--b);border-radius:10px;cursor:pointer;" onclick="goSlide(2)">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(95,232,120,.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🌿</div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--t);">Jardinage & services</div><div style="font-size:11px;color:var(--m);">Prestations, devis en ligne, contact</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOCKUP NAVIGATEUR COMPLET -->
+    <div class="demo-phones rr">
+      <div style="position:relative;width:100%;overflow:hidden;border-radius:12px;">
+        <div class="slide-lbl" id="slbl" style="left:50%;">🍗 Food truck</div>
+
+        <!-- BROWSER WINDOW COMPLET -->
+        <div style="background:#111827;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);">
+          <!-- Browser chrome -->
+          <div style="background:#1E2535;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06);">
+            <div style="display:flex;gap:5px;">
+              <div style="width:10px;height:10px;border-radius:50%;background:#FF5F57;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#FEBC2E;"></div>
+              <div style="width:10px;height:10px;border-radius:50%;background:#28C840;"></div>
+            </div>
+            <div id="browser-url" style="flex:1;background:rgba(255,255,255,.06);border-radius:5px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.4);font-family:var(--mono);">moncommerce.fr</div>
+          </div>
+
+          <!-- SITE CONTENT - Food truck -->
+          <div class="bslide on" id="bs0" style="transition:opacity .4s;">
+            <!-- HEADER SITE -->
+            <div style="background:linear-gradient(180deg,#1a1200,#0e0a00);padding:0;">
+              <!-- Bande madras -->
+              <div style="height:4px;background:repeating-linear-gradient(90deg,#E8B800 0,#E8B800 10px,#1a6e1a 10px,#1a6e1a 20px,#C0392B 20px,#C0392B 30px);"></div>
+              <!-- Nav -->
+              <div style="padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,215,0,.08);">
+                <div style="font-size:10px;font-weight:800;color:#FFD700;letter-spacing:.06em;">A KA STANN</div>
+                <div style="display:flex;gap:6px;">
+                  <span style="font-size:7.5px;color:rgba(255,215,0,.5);">Menu</span>
+                  <span style="font-size:7.5px;color:rgba(255,215,0,.5);">Galerie</span>
+                  <span style="font-size:7.5px;color:rgba(255,215,0,.5);">Contact</span>
+                </div>
+              </div>
+              <!-- Hero -->
+              <div style="padding:16px 14px;text-align:center;">
+                <div style="font-size:8px;color:rgba(255,215,0,.5);margin-bottom:4px;">📍 Rouvres 77230 · Chaque vendredi 18h–21h</div>
+                <div style="font-size:16px;font-weight:800;color:#FFD700;letter-spacing:.04em;margin-bottom:4px;">A KA STANN & DEDETTE</div>
+                <div style="font-size:8.5px;color:rgba(255,230,120,.6);font-style:italic;margin-bottom:10px;">Savourez l'instant, goûtez l'authenticité</div>
+                <div style="background:#FFD700;color:#1a1200;border-radius:20px;padding:7px 18px;font-size:9px;font-weight:800;display:inline-block;">🛒 Commander en ligne</div>
+              </div>
+            </div>
+            <!-- Menu section -->
+            <div style="background:#0a0800;padding:10px 14px;">
+              <div style="font-size:9px;font-weight:700;color:#FFD700;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,215,0,.1);">Notre menu</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+                <div style="background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.08);border-radius:6px;padding:7px;">
+                  <div style="height:24px;background:linear-gradient(135deg,#2a1800,#1a1000);border-radius:3px;margin-bottom:5px;"></div>
+                  <div style="font-size:7.5px;font-weight:600;color:#fff;">Poulet boucané</div>
+                  <div style="font-size:8px;font-weight:700;color:#FFD700;margin-top:2px;">12 €</div>
+                </div>
+                <div style="background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.08);border-radius:6px;padding:7px;">
+                  <div style="height:24px;background:linear-gradient(135deg,#2a1800,#1a1000);border-radius:3px;margin-bottom:5px;"></div>
+                  <div style="font-size:7.5px;font-weight:600;color:#fff;">Accras morue</div>
+                  <div style="font-size:8px;font-weight:700;color:#FFD700;margin-top:2px;">6 €</div>
+                </div>
+                <div style="background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.08);border-radius:6px;padding:7px;">
+                  <div style="height:24px;background:linear-gradient(135deg,#2a1800,#1a1000);border-radius:3px;margin-bottom:5px;"></div>
+                  <div style="font-size:7.5px;font-weight:600;color:#fff;">Colombo</div>
+                  <div style="font-size:8px;font-weight:700;color:#FFD700;margin-top:2px;">10 €</div>
+                </div>
+              </div>
+            </div>
+            <!-- Bande bas -->
+            <div style="height:3px;background:repeating-linear-gradient(90deg,#E8B800 0,#E8B800 10px,#1a6e1a 10px,#1a6e1a 20px,#C0392B 20px,#C0392B 30px);"></div>
+          </div>
+
+          <!-- SITE CONTENT - Salon -->
+          <div class="bslide" id="bs1" style="display:none;transition:opacity .4s;">
+            <div style="background:linear-gradient(180deg,#100818,#080410);padding:0;">
+              <div style="padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(216,160,255,.08);">
+                <div style="font-size:10px;font-weight:800;color:#D8A0FF;letter-spacing:.06em;">STUDIO ÉLISE</div>
+                <div style="display:flex;gap:6px;">
+                  <span style="font-size:7.5px;color:rgba(216,160,255,.5);">Prestations</span>
+                  <span style="font-size:7.5px;color:rgba(216,160,255,.5);">Galerie</span>
+                  <span style="font-size:7.5px;color:rgba(216,160,255,.5);">Contact</span>
+                </div>
+              </div>
+              <div style="padding:14px;text-align:center;border-bottom:1px solid rgba(216,160,255,.08);">
+                <div style="font-size:22px;margin-bottom:4px;">💆</div>
+                <div style="font-size:14px;font-weight:800;color:#D8A0FF;margin-bottom:3px;">Coiffure & Bien-être</div>
+                <div style="font-size:8px;color:rgba(216,160,255,.5);margin-bottom:8px;">Melun · Sur rendez-vous</div>
+                <div style="background:linear-gradient(135deg,#9B5FFF,#C87AFF);color:#fff;border-radius:20px;padding:6px 16px;font-size:9px;font-weight:700;display:inline-block;">📅 Prendre rendez-vous</div>
+              </div>
+            </div>
+            <div style="background:#080410;padding:10px 14px;">
+              <div style="font-size:9px;font-weight:700;color:#D8A0FF;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(216,160,255,.1);">Nos prestations</div>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="display:flex;justify-content:space-between;background:rgba(216,160,255,.05);border:1px solid rgba(216,160,255,.1);border-radius:6px;padding:7px 10px;"><span style="font-size:8px;color:#fff;font-weight:600;">Coupe femme</span><span style="font-size:8px;color:#D8A0FF;font-weight:700;">45€</span></div>
+                <div style="display:flex;justify-content:space-between;background:rgba(216,160,255,.05);border:1px solid rgba(216,160,255,.1);border-radius:6px;padding:7px 10px;"><span style="font-size:8px;color:#fff;font-weight:600;">Coloration</span><span style="font-size:8px;color:#D8A0FF;font-weight:700;">65€</span></div>
+                <div style="display:flex;justify-content:space-between;background:rgba(216,160,255,.05);border:1px solid rgba(216,160,255,.1);border-radius:6px;padding:7px 10px;"><span style="font-size:8px;color:#fff;font-weight:600;">Balayage</span><span style="font-size:8px;color:#D8A0FF;font-weight:700;">80€</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SITE CONTENT - Jardinage -->
+          <div class="bslide" id="bs2" style="display:none;transition:opacity .4s;">
+            <div style="background:linear-gradient(180deg,#071408,#030B03);padding:0;">
+              <div style="padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(34,197,94,.08);">
+                <div style="font-size:10px;font-weight:800;color:#5FE878;letter-spacing:.06em;">VERT & PROPRE</div>
+                <div style="display:flex;gap:6px;">
+                  <span style="font-size:7.5px;color:rgba(95,232,120,.5);">Services</span>
+                  <span style="font-size:7.5px;color:rgba(95,232,120,.5);">Galerie</span>
+                  <span style="font-size:7.5px;color:rgba(95,232,120,.5);">Contact</span>
+                </div>
+              </div>
+              <div style="padding:14px;text-align:center;border-bottom:1px solid rgba(34,197,94,.08);">
+                <div style="font-size:22px;margin-bottom:4px;">🌿</div>
+                <div style="font-size:14px;font-weight:800;color:#5FE878;margin-bottom:3px;">Jardinage & Entretien</div>
+                <div style="font-size:8px;color:rgba(95,232,120,.5);margin-bottom:8px;">À domicile · Seine-et-Marne</div>
+                <div style="background:#22C55E;color:#fff;border-radius:20px;padding:6px 16px;font-size:9px;font-weight:700;display:inline-block;">📋 Demander un devis gratuit</div>
+              </div>
+            </div>
+            <div style="background:#030B03;padding:10px 14px;">
+              <div style="font-size:9px;font-weight:700;color:#5FE878;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(34,197,94,.1);">Nos services</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+                <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-radius:6px;padding:8px;text-align:center;"><div style="font-size:14px;">🌱</div><div style="font-size:7.5px;color:#fff;font-weight:600;margin-top:3px;">Tonte</div><div style="font-size:8px;color:#5FE878;font-weight:700;">dès 40€</div></div>
+                <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-radius:6px;padding:8px;text-align:center;"><div style="font-size:14px;">✂️</div><div style="font-size:7.5px;color:#fff;font-weight:600;margin-top:3px;">Taille haie</div><div style="font-size:8px;color:#5FE878;font-weight:700;">dès 50€</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLOATING NOTIFS dynamiques -->
+        <div class="notif notif1" id="notif1">
+          <div class="notif-hd"><div class="notif-live"></div><span id="n1-hd">Commande reçue</span></div>
+          <div class="notif-val" id="n1-val">Poulet x2 + Accras — 30€</div>
+        </div>
+        <div class="notif notif2" id="notif2">
+          <div class="notif-hd"><span id="n2-hd">📦 Ce vendredi</span></div>
+          <div class="notif-val" id="n2-val">12 commandes</div>
+        </div>
+
+        <div class="ptabs" style="position:relative;bottom:auto;left:auto;transform:none;margin-top:16px;">
+          <div class="ptab on" onclick="goSlide(0)"></div>
+          <div class="ptab" onclick="goSlide(1)"></div>
+          <div class="ptab" onclick="goSlide(2)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURES EN VIGNETTES ===== -->
+<div class="feat-alt">
+  <div class="section-eye r" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;">
+    <span style="width:20px;height:2px;background:var(--blue);display:inline-block;box-shadow:0 0 6px var(--blue);"></span>
+    Ce qu'on construit ensemble
+  </div>
+  <h2 class="r d1" style="font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;">Tout ce dont votre commerce <em style="font-style:normal;color:var(--blue);">a vraiment besoin</em></h2>
+  <p class="r d2" style="font-size:15px;color:var(--m);margin-bottom:0;">Cliquez sur une vignette pour en savoir plus.</p>
+
+  <div class="vignettes r d2">
+    <div class="vignette on" id="vf0" onclick="showFeat(0)">
+      <div class="vignette-icon">⚙️</div>
+      <div class="vignette-title">Espace admin</div>
+      <div class="vignette-desc">Gérez tout vous-même, à tout moment</div>
+      <div class="vignette-line"></div>
+    </div>
+    <div class="vignette" id="vf1" onclick="showFeat(1)">
+      <div class="vignette-icon">🌐</div>
+      <div class="vignette-title">Hébergement gratuit</div>
+      <div class="vignette-desc">Zéro frais récurrent, à vie</div>
+      <div class="vignette-line"></div>
+    </div>
+    <div class="vignette" id="vf2" onclick="showFeat(2)">
+      <div class="vignette-icon">📲</div>
+      <div class="vignette-title">App installable</div>
+      <div class="vignette-desc">Inclus gratuitement sur toutes les formules</div>
+      <div class="vignette-line"></div>
+    </div>
+  </div>
+
+  <!-- PANEL 1 — Admin -->
+  <div class="v-panel on" id="fp0" style="background:var(--s1);border:1px solid var(--b);border-left:3px solid var(--blue);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <h3 class="feat-title">Votre espace admin, <em>vous aux commandes</em></h3>
+      <p class="feat-desc">Plus besoin de me contacter pour changer une photo ou mettre à jour le menu. Vous gérez tout vous-même depuis un espace dédié, sécurisé par mot de passe.</p>
+      <div class="feat-checks">
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Photos, menu, horaires modifiables à tout moment</div>
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Gestion des commandes et du stock en temps réel</div>
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Notifications WhatsApp à chaque nouvelle commande</div>
+      </div>
+    </div>
+    <div class="feat-visual">
+      <div class="admin-tabs">
+        <div class="admin-tab on">Commandes</div>
+        <div class="admin-tab off">Menu</div>
+        <div class="admin-tab off">Photos</div>
+        <div class="admin-tab off">Stats</div>
+      </div>
+      <div class="admin-row"><span class="admin-rname">Poulet x2 — Thomas R.</span><span class="admin-rbadge new">Nouveau</span></div>
+      <div class="admin-row"><span class="admin-rname">Accras x4 — Marie L.</span><span class="admin-rbadge new">Nouveau</span></div>
+      <div class="admin-row"><span class="admin-rname">Colombo x1 — Pierre D.</span><span class="admin-rbadge done">Traité</span></div>
+      <div class="admin-row"><span class="admin-rname">Riz coco x3 — Fatou K.</span><span class="admin-rbadge done">Traité</span></div>
+      <div style="margin-top:14px;padding:10px 12px;background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.15);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;color:var(--m);">Total ce soir</span>
+        <span style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--t);">186 €</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2 — Hébergement -->
+  <div class="v-panel" id="fp1" style="background:var(--s1);border:1px solid var(--b);border-left:3px solid var(--blue);display:none;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <h3 class="feat-title"><em>Zéro frais</em> d'hébergement, à vie</h3>
+      <p class="feat-desc">Votre site tourne sur une infrastructure gratuite et fiable. Pas d'abonnement mensuel, pas de surprise sur votre facture.</p>
+      <div class="feat-checks">
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Hébergement GitHub Pages — gratuit et illimité</div>
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Base de données Firebase — gratuit pour votre volume</div>
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Domaine personnalisé en option — 6 à 12€/an</div>
+      </div>
+    </div>
+    <div class="feat-visual">
+      <div class="domain-visual">
+        <div class="domain-pill"><div class="domain-lock">🔒</div><div class="domain-url">mon<span>commerce</span>.fr</div></div>
+        <div class="domain-desc" style="font-size:12px;color:var(--m);margin-bottom:16px;">Votre propre adresse. Pro, mémorable.</div>
+        <div class="domain-steps">
+          <div class="domain-step"><div class="domain-step-num">1</div>Vous achetez votre domaine sur OVH (~10€/an)</div>
+          <div class="domain-step"><div class="domain-step-num">2</div>Je configure le pointage (inclus dans la prestation)</div>
+          <div class="domain-step"><div class="domain-step-num">3</div>Votre site est accessible sur votre adresse pro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3 — PWA -->
+  <div class="v-panel" id="fp2" style="background:var(--s1);border:1px solid var(--b);border-left:3px solid var(--blue);display:none;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <h3 class="feat-title">Installable comme une <em>vraie app</em></h3>
+      <p class="feat-desc">Vos clients peuvent installer votre site directement sur l'écran d'accueil de leur téléphone, comme une vraie app, sans passer par l'App Store. Inclus gratuitement sur toutes les formules.</p>
+      <div class="feat-checks">
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Icône sur l'écran d'accueil du téléphone</div>
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Plein écran sans barre de navigateur</div>
+        <div class="feat-check"><div class="feat-check-icon">✓</div>Accès instantané, expérience identique à une vraie application</div>
+      </div>
+    </div>
+    <div class="feat-visual" style="text-align:center;">
+      <div class="feat-phone-mini">
+        <div style="background:linear-gradient(180deg,#1a1200,#0a0800);height:100%;padding:18px 10px 10px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D4880A,#FFD700);margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:14px;">🔥</div>
+          <div style="font-size:7px;font-weight:800;color:#FFD700;text-align:center;margin-bottom:8px;">A KA STANN</div>
+          <div style="background:#FFD700;color:#1a1200;border-radius:12px;padding:5px;font-size:7px;font-weight:800;text-align:center;margin-bottom:8px;">🛒 Commander</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+            <div style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.12);border-radius:5px;padding:4px;"><div style="height:14px;background:rgba(255,215,0,.1);border-radius:2px;margin-bottom:2px;"></div><div style="font-size:5.5px;color:#FFD700;font-weight:700;">Poulet 12€</div></div>
+            <div style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.12);border-radius:5px;padding:4px;"><div style="height:14px;background:rgba(255,215,0,.1);border-radius:2px;margin-bottom:2px;"></div><div style="font-size:5.5px;color:#FFD700;font-weight:700;">Accras 6€</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.2);border-radius:20px;padding:5px 14px;">
+          <span style="font-size:11px;color:var(--blue);font-weight:600;">📲 Installer l'app</span>
+        </div>
+        <div style="font-size:11px;color:var(--m);margin-top:6px;">0 € · Pas d'App Store</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REALISATION ===== -->
+<div class="real-s" id="preuve">
+  <div class="section-eye r" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;">
+    <span style="width:20px;height:2px;background:var(--blue);display:inline-block;box-shadow:0 0 6px var(--blue);"></span>
+    Réalisations
+  </div>
+  <p style="font-size:15px;color:var(--m);" class="r d1">Liste des projets réalisés à ce jour.</p>
+  <div class="real-card r d2">
+    <div class="real-preview">
+      <div class="real-preview-logo">🔥</div>
+      <div class="real-preview-name">A KA STANN & DEDETTE</div>
+      <div style="font-size:7px;color:rgba(255,215,0,.4);text-align:center;margin-top:2px;">Grillades Antillaises · Rouvres 77230</div>
+      <div class="real-preview-grid">
+        <div class="real-preview-feat">🛒 Commande</div>
+        <div class="real-preview-feat">📲 Notifs</div>
+        <div class="real-preview-feat">⚙️ Admin</div>
+        <div class="real-preview-feat">📸 Galerie</div>
+      </div>
+    </div>
+    <div class="real-info">
+      <div class="real-name">A KA STANN & DEDETTE <span class="real-tag">Food truck</span></div>
+      <div class="real-desc">Site vitrine + système de commande en ligne complet. Menu multi-onglets, gestion de stock en temps réel, notifications WhatsApp instantanées à chaque commande, espace admin avec galerie photos modifiable par le client.</div>
+      <div class="real-stack">
+        <span class="real-tech">Firebase</span>
+        <span class="real-tech">GitHub Pages</span>
+        <span class="real-tech">WhatsApp API</span>
+        <span class="real-tech">PWA</span>
+        <span class="real-tech">HTML/JS/CSS</span>
+      </div>
+      <a class="real-link" href="https://akastan971.github.io/akastann/landing.html" target="_blank">Voir le site en ligne →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRICING ===== -->
+<div class="price-s" id="price-s">
+  <div class="section-eye r" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;">
+    <span style="width:20px;height:2px;background:var(--blue);display:inline-block;box-shadow:0 0 6px var(--blue);"></span>
+    Formules
+  </div>
+  <h2 class="r d1" style="font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px;">Transparent, <em style="font-style:normal;color:var(--blue);">sans surprise</em></h2>
+  <div class="price-grid">
+    <div class="price-card r d1">
+      <div class="price-name">Essentiel</div>
+      <div class="price-amount"><sup>€</sup>350</div>
+      <div class="price-delay">Livraison max 2 semaines *</div>
+      <ul class="price-items">
+        <li class="price-item"><div class="price-item-dot">✓</div>Page de présentation à votre image</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Admin : photos, menu, horaires</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Localisation & contact</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Hébergement gratuit à vie</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>2 allers-retours inclus</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Bugs corrigés à vie · Support 6 mois inclus</li>
+      </ul>
+      <div class="price-opts">
+        <div class="price-opts-title">Options</div>
+        <div class="price-opt">Domaine .fr — 6 à 12€/an</div>
+        <div class="price-opt">Site installable sur mobile (PWA) — gratuit</div>
+        <div class="price-opt">Compte admin full accès supplémentaire — +20€<br>Accès différencié — +50€</div>
+        <div class="price-opt">Évolutions & ajouts — à partir de 25€ selon la demande</div>
+      </div>
+      <a class="price-cta" href="#" onclick="toggleDrawer()">Démarrer →</a>
+    </div>
+    <div class="price-card featured r d2">
+      <div class="price-badge">⚡ Le plus populaire</div>
+      <div class="price-name">Commande</div>
+      <div class="price-amount"><sup>€</sup>500</div>
+      <div class="price-delay">Livraison max 3 semaines *</div>
+      <ul class="price-items">
+        <li class="price-item"><div class="price-item-dot">✓</div>Tout l'Essentiel inclus</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Commande / RDV en ligne</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Notification instantanée</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Admin commandes & stock</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Bugs corrigés à vie · Support 6 mois inclus</li>
+      </ul>
+      <div class="price-opts">
+        <div class="price-opts-title">Options</div>
+        <div class="price-opt">Domaine .fr — 6 à 12€/an</div>
+        <div class="price-opt">Site installable sur mobile (PWA) — gratuit</div>
+        <div class="price-opt">Compte admin full accès supplémentaire — +20€<br>Accès différencié — +50€</div>
+        <div class="price-opt">Évolutions & ajouts — à partir de 25€ selon la demande</div>
+      </div>
+      <a class="price-cta" href="#" onclick="toggleDrawer()">Démarrer →</a>
+    </div>
+    <div class="price-card r d3">
+      <div class="price-name">Sur-mesure</div>
+      <div class="price-amount" style="font-size:24px;padding-top:4px;">Devis</div>
+      <div class="price-delay">Réponse sous 48h</div>
+      <ul class="price-items">
+        <li class="price-item"><div class="price-item-dot">✓</div>Carte de fidélité numérique</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Paiement en ligne (Stripe)</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Notifications SMS</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>PWA incluse</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Tout besoin spécifique</li>
+      </ul>
+      <div class="price-opts">
+        <div class="price-opts-title">Options</div>
+        <div class="price-opt">Domaine .fr — 6 à 12€/an</div>
+        <div class="price-opt">Compte admin full accès supplémentaire — +20€<br>Accès différencié — +50€</div>
+        <div class="price-opt">Évolutions & ajouts — à partir de 25€ selon la demande</div>
+      </div>
+      <a class="price-cta" href="#" onclick="toggleDrawer()">Obtenir un devis →</a>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--m);margin-top:16px;text-align:center;">* Délais indicatifs, incluant les échanges et les allers-retours de modifications. Je travaille sur chaque projet avec soin, pas à la chaîne.</p>
+</div>
+</div><!-- /wrap -->
+
+<!-- FAQ -->
+<div class="wrap">
+<div class="faq-s" id="faq">
+  <div class="section-eye r" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;">
+    <span style="width:20px;height:2px;background:var(--blue);display:inline-block;box-shadow:0 0 6px var(--blue);"></span>
+    Questions fréquentes
+  </div>
+  <h2 class="r d1" style="font-size:34px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;">Vous avez des questions, <em style="font-style:normal;color:var(--blue);">j'ai les réponses</em></h2>
+
+  <div class="faq-list r d2">
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Que se passe-t-il si quelque chose ne fonctionne plus après la livraison ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>Un support de 6 mois est inclus dans toutes les formules pour l'assistance et la prise en main. Pour les bugs techniques (formulaire en panne, problème d'affichage, Firebase qui décroche...), je corrige gratuitement et sans limite de durée — si quelque chose casse de mon côté, c'est ma responsabilité. Pour les évolutions et ajouts que vous souhaitez après la livraison, c'est à partir de 25€ selon la demande.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">C'est vraiment fait pour moi si je ne connais rien au digital ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>Oui, c'est exactement pour vous. Je construis des outils pensés pour des personnes qui n'ont aucune compétence technique. L'espace admin est simple, visuel et intuitif. Si vous savez envoyer un message sur WhatsApp, vous saurez gérer votre site.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Mon activité est-elle concernée ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>Si vous avez une activité locale et que vous voulez être visible en ligne, alors oui. Food truck, boulangerie, salon de coiffure, jardinage, ménage à domicile, traiteur, prestataire de service... Je m'adapte à votre secteur, pas l'inverse.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Combien de temps faut-il pour avoir mon site en ligne ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>Pour la formule Essentiel, comptez maximum 2 semaines. Pour la formule Commande avec le système de prise de commande ou rendez-vous en ligne, maximum 3 semaines. Je travaille sur cette activité en parallèle de mon emploi principal, ce qui me permet de proposer des tarifs accessibles. En contrepartie, je prends le temps de bien faire les choses plutôt que de livrer quelque chose à la va-vite.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Est-ce qu'il y a des frais mensuels ou cachés ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>Non. L'hébergement est gratuit à vie. La seule dépense optionnelle est votre nom de domaine personnalisé (ex: moncommerce.fr) qui coûte entre 6 et 12 euros par an. Pour toute évolution ou ajout après la livraison, je facture à partir de 25€ selon la complexité de la demande. Pas d'abonnement, pas d'engagement.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Je pourrai vraiment gérer mon site seul après la livraison ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>C'est justement l'objectif. Changer une photo, mettre à jour votre menu, modifier vos horaires... tout ça se fait depuis votre espace admin en quelques clics, depuis votre téléphone ou votre ordinateur. Je vous explique le fonctionnement à la livraison et vous êtes autonome.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Comment se passe le paiement ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>50% à la validation du projet pour démarrer le développement, et les 50% restants à la livraison une fois que vous êtes satisfait du résultat. Vous payez le solde uniquement quand votre site est prêt et que vous avez validé.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Et si j'ai besoin d'évolutions ou de modifications après la livraison ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>Les modifications du quotidien (photos, menu, horaires) vous les faites vous-même via l'admin, sans me contacter. Pour toute évolution ou ajout plus important, pas d'abonnement — vous me contactez quand vous en avez besoin, je vous fais un retour rapide et je facture à partir de 25€ selon la complexité. Je reste disponible après la livraison.</p></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span class="faq-q-text">Qu'est-ce que la PWA dont vous parlez ?</span><div class="faq-icon">+</div></div>
+      <div class="faq-a"><p>La PWA permet à vos clients d'ajouter votre site sur l'écran d'accueil de leur téléphone, comme une vraie application. Ils y accèdent en un clic, en plein écran, sans passer par l'App Store. C'est inclus gratuitement sur toutes les formules, sans manipulation de votre côté.</p></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- FAB -->
+<button class="contact-fab" id="contactFab" onclick="toggleDrawer()">
+  <div class="contact-fab-dot"></div>
+  Discutons de votre projet
+</button>
+
+<!-- MODAL CONTACT -->
+<div class="modal-overlay" id="contactDrawer" onclick="closeOnOverlay(event)">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-hdr-left">
+        <div class="modal-icon">💬</div>
+        <div class="modal-title">Parlons de votre projet</div>
+        <div class="modal-sub">Je reviens vers vous sous 48h avec une proposition claire.</div>
+      </div>
+      <button class="modal-close" onclick="toggleDrawer()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="contactForm">
+        <div class="fgrid">
+          <div class="frow"><label>Nom et prénom</label><input id="cf-name" type="text" required placeholder="Marie Dupont"></div>
+          <div class="frow"><label>Entreprise</label><input id="cf-company" type="text" required placeholder="Mon Food Truck"></div>
+        </div>
+        <div class="fgrid">
+          <div class="frow"><label>Téléphone</label><input id="cf-phone" type="tel" required placeholder="06 12 34 56 78"></div>
+          <div class="frow"><label>Email</label><input id="cf-email" type="email" required placeholder="contact@moncommerce.fr"></div>
+        </div>
+        <div class="frow"><label>Décrivez-moi votre projet</label><textarea id="cf-message" required placeholder="Je gère un food truck, je voudrais un site avec un système de commande en ligne..."></textarea></div>
+        <button class="submit-btn" type="submit" id="cf-submit" style="width:100%;">Envoyer ma demande →</button>
+        <div class="fstatus" id="cf-status"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">Neto<em>riz</em></div>
+  <div class="foot-sub">Sites & systèmes de commande pour commerçants · Création par Romain</div>
+  <div style="margin-top:16px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+    <a href="mentions-legales.html" style="font-size:12px;color:#3A4055;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#4F8EF7'" onmouseout="this.style.color='#3A4055'">Mentions légales</a>
+    <a href="politique-confidentialite.html" style="font-size:12px;color:#3A4055;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#4F8EF7'" onmouseout="this.style.color='#3A4055'">Politique de confidentialité</a>
+    <a href="cgv.html" style="font-size:12px;color:#3A4055;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#4F8EF7'" onmouseout="this.style.color='#3A4055'">CGV</a>
+  </div>
+</footer>
+
+<script>
+// REVEAL
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on');}),{threshold:.1});
+document.querySelectorAll('.r,.rl,.rr').forEach(el=>obs.observe(el));
+
+// DEMO SLIDES (browser mockup)
+const slideLabels=['🍗 Food truck','💆 Salon & bien-être','🌿 Jardinage & services'];
+const slideUrls=['moncommerce.fr','studioelise.fr','vert-propre.fr'];
+const notifData=[
+  {hd:'Commande reçue',val:'Poulet x2 + Accras — 30€',hd2:'📦 Ce soir',val2:'12 commandes'},
+  {hd:'Rendez-vous confirmé',val:'Coupe + Brushing — Lundi 14h',hd2:'📅 Cette semaine',val2:'8 rendez-vous'},
+  {hd:'Devis demandé',val:'Tonte + Haie — Vendredi',hd2:'🌿 Ce mois',val2:'15 interventions'},
+];
+let cur=0;
+function goSlide(i){
+  // hide current browser slide
+  const bs=document.getElementById('bs'+cur);
+  if(bs){bs.style.display='none';}
+  document.querySelectorAll('.ptab')[cur]?.classList.remove('on');
+  // highlight demo list items
+  document.querySelectorAll('[onclick^="goSlide"]').forEach((el,j)=>{
+    el.style.borderColor=j===i?'rgba(79,142,247,0.4)':'var(--b)';
+    el.style.background=j===i?'rgba(79,142,247,0.06)':'var(--s1)';
+  });
+  cur=i;
+  // show new browser slide
+  const nbs=document.getElementById('bs'+cur);
+  if(nbs){nbs.style.display='block';}
+  document.querySelectorAll('.ptab')[cur]?.classList.add('on');
+  document.getElementById('slbl').textContent=slideLabels[cur];
+  // update URL bar
+  const urlEl=document.getElementById('browser-url');
+  if(urlEl) urlEl.textContent=slideUrls[cur];
+  // update notifs
+  const d=notifData[cur];
+  document.getElementById('n1-hd').textContent=d.hd;
+  document.getElementById('n1-val').textContent=d.val;
+  document.getElementById('n2-hd').textContent=d.hd2;
+  document.getElementById('n2-val').textContent=d.val2;
+}
+// auto-cycle
+setInterval(()=>goSlide((cur+1)%3),4000);
+// init first highlight
+document.querySelectorAll('[onclick^="goSlide"]')[0].style.borderColor='rgba(79,142,247,0.4)';
+document.querySelectorAll('[onclick^="goSlide"]')[0].style.background='rgba(79,142,247,0.06)';
+
+// FEATURES TABS
+function showFeat(i){
+  ['vf0','vf1','vf2'].forEach((id,j)=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('on',j===i);
+  });
+  ['fp0','fp1','fp2'].forEach((id,j)=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display=j===i?'grid':'none';
+  });
+}
+
+// FAQ
+function toggleFaq(item){
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+function toggleDrawer(){
+  document.getElementById('contactDrawer').classList.toggle('open');
+}
+function closeOnOverlay(e){
+  if(e.target===document.getElementById('contactDrawer')) toggleDrawer();
+}
+
+function scrollToId(e,id){e.preventDefault();document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function scrollToAbout(e){e&&e.preventDefault();document.querySelector('.hero').scrollIntoView({behavior:'smooth'});setTimeout(()=>{document.getElementById('aboutPanel').classList.add('active');document.getElementById('digitalPanel').classList.remove('active');},300);}
+
+// PANELS
+function toggleAbout(btn){
+  const isOpen=document.getElementById('aboutPanel').classList.contains('active');
+  document.getElementById('digitalPanel').classList.remove('active');
+  document.getElementById('aboutPanel').classList.toggle('active',!isOpen);
+  document.querySelectorAll('.hero-actions .btn-sec').forEach(b=>b.classList.remove('active'));
+  if(!isOpen) btn.classList.add('active');
+}
+function toggleDigital(btn){
+  const isOpen=document.getElementById('digitalPanel').classList.contains('active');
+  document.getElementById('aboutPanel').classList.remove('active');
+  document.getElementById('digitalPanel').classList.toggle('active',!isOpen);
+  document.querySelectorAll('.hero-actions .btn-sec').forEach(b=>b.classList.remove('active'));
+  if(!isOpen) btn.classList.add('active');
+}
+
+// CONTACT
+const CALLMEBOT_PHONE="TON_NUMERO",CALLMEBOT_APIKEY="TON_APIKEY";
+const EMAILJS_SERVICE_ID="YOUR_SERVICE_ID",EMAILJS_TEMPLATE_ID="YOUR_TEMPLATE_ID",EMAILJS_PUBLIC_KEY="YOUR_PUBLIC_KEY";
+document.getElementById('contactForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('cf-submit'),status=document.getElementById('cf-status');
+  const name=document.getElementById('cf-name').value,company=document.getElementById('cf-company').value;
+  const phone=document.getElementById('cf-phone').value,email=document.getElementById('cf-email').value;
+  const message=document.getElementById('cf-message').value;
+  btn.disabled=true;status.textContent="Envoi en cours...";
+  try{
+    const t=encodeURIComponent(`Nouvelle demande Netoriz:\nNom: ${name}\nEntreprise: ${company}\nTel: ${phone}\nEmail: ${email}\nMessage: ${message}`);
+    await fetch(`https://api.callmebot.com/whatsapp.php?phone=${CALLMEBOT_PHONE}&text=${t}&apikey=${CALLMEBOT_APIKEY}`);
+    if(window.emailjs)await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{from_name:name,from_company:company,from_phone:phone,from_email:email,message},EMAILJS_PUBLIC_KEY);
+    status.textContent="✅ Message envoyé — je reviens vers vous sous 48h !";
+    document.getElementById('contactForm').reset();
+  }catch{status.textContent="Une erreur est survenue, réessayez ou contactez-moi directement.";}
+  finally{btn.disabled=false;}
+});
+</script>
+</body>
+</html>
