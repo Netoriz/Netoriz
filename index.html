@@ -102,8 +102,108 @@ nav{position:sticky;top:0;z-index:200;background:rgba(5,7,13,.8);backdrop-filter
 .nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:8px 18px;border-radius:7px;margin-left:8px;cursor:pointer;transition:all .2s;}
 .nav-cta:hover{background:#3d7be5;box-shadow:0 4px 20px rgba(79,142,247,0.4);}
 
-/* ===== HERO ===== */
-.hero{display:flex;flex-direction:column;justify-content:center;padding:32px 0 32px;position:relative;}
+/* ===== HERO 2 COLONNES ===== */
+.hero-wrap{
+  display:grid;
+  grid-template-columns:1fr 520px;
+  gap:60px;
+  align-items:center;
+  padding:48px 0 60px;
+  position:relative;
+}
+.hero-left{display:flex;flex-direction:column;}
+
+/* ===== LAPTOP MOCKUP ===== */
+.hero-right{position:relative;height:380px;display:flex;align-items:center;justify-content:center;}
+
+.laptop{
+  width:420px;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(79,142,247,.12));
+  animation:laptop-float 5s ease-in-out infinite;
+}
+@keyframes laptop-float{
+  0%,100%{transform:translateY(0) rotate(-1deg);}
+  50%{transform:translateY(-10px) rotate(-1deg);}
+}
+.laptop-screen{
+  background:#0D0D1A;
+  border-radius:10px 10px 0 0;
+  border:4px solid #1E1E30;
+  border-bottom:none;
+  overflow:hidden;
+}
+.laptop-bar{
+  background:#1A1A2E;
+  padding:6px 10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.laptop-content{overflow:hidden;}
+.laptop-base{
+  background:linear-gradient(180deg,#1E1E30,#141420);
+  height:18px;
+  border-radius:0 0 6px 6px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  padding-bottom:2px;
+  border:2px solid #1E1E30;
+  border-top:none;
+}
+.laptop-notch{
+  width:60px;height:6px;
+  background:#0D0D1A;
+  border-radius:3px;
+}
+
+/* PHONE FLOTTANT SUR LAPTOP */
+.phone-float-hero{
+  position:absolute;
+  right:-20px;
+  bottom:10px;
+  width:90px;
+  height:170px;
+  background:#0D0D1A;
+  border-radius:16px;
+  border:4px solid #1E1E30;
+  overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 20px rgba(255,180,0,.08);
+  animation:phone-float 4s ease-in-out 0.5s infinite;
+  z-index:5;
+}
+@keyframes phone-float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+.pfh-notch{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:30px;height:8px;background:#0D0D1A;border-radius:0 0 6px 6px;z-index:10;
+}
+
+/* BADGES FLOTTANTS */
+.hero-badge{
+  position:absolute;
+  background:rgba(12,17,32,.95);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--b2);
+  border-radius:10px;
+  padding:8px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  z-index:10;
+}
+.hero-badge-1{top:20px;left:-20px;animation:floatIn 4s ease infinite;}
+.hero-badge-2{bottom:60px;left:-30px;animation:floatIn2 5s ease 1s infinite;}
+.hero-badge-3{top:60px;right:-10px;animation:floatIn 4.5s ease 2s infinite;}
+
+@media(max-width:900px){
+  .hero-wrap{grid-template-columns:1fr;gap:40px;}
+  .hero-right{display:none;}
+}display:flex;flex-direction:column;justify-content:center;padding:32px 0 32px;position:relative;}
 
 /* Ambient glow behind hero */
 .hero::after{content:"";position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(79,142,247,0.08) 0%,transparent 70%);pointer-events:none;}
@@ -994,8 +1094,8 @@ footer{padding:48px 0;border-top:1px solid var(--b);text-align:center;}
         <li class="price-item"><div class="price-item-dot">✓</div>Admin : photos, menu, horaires</li>
         <li class="price-item"><div class="price-item-dot">✓</div>Localisation & contact</li>
         <li class="price-item"><div class="price-item-dot">✓</div>Hébergement gratuit à vie</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>2 allers-retours inclus</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>Bugs corrigés à vie · Support 6 mois inclus</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>2 allers-retours inclus **</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Bugs & pannes corrigés à vie · Prise en main accompagnée 6 mois</li>
       </ul>
       <div class="price-opts">
         <div class="price-opts-title">Options</div>
@@ -1016,7 +1116,8 @@ footer{padding:48px 0;border-top:1px solid var(--b);text-align:center;}
         <li class="price-item"><div class="price-item-dot">✓</div>Commande / RDV en ligne</li>
         <li class="price-item"><div class="price-item-dot">✓</div>Notification instantanée</li>
         <li class="price-item"><div class="price-item-dot">✓</div>Admin commandes & stock</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>Bugs corrigés à vie · Support 6 mois inclus</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>3 allers-retours inclus **</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Bugs & pannes corrigés à vie · Prise en main accompagnée 6 mois</li>
       </ul>
       <div class="price-opts">
         <div class="price-opts-title">Options</div>
@@ -1032,11 +1133,11 @@ footer{padding:48px 0;border-top:1px solid var(--b);text-align:center;}
       <div class="price-amount" style="font-size:24px;padding-top:4px;">Devis</div>
       <div class="price-delay">Réponse sous 48h</div>
       <ul class="price-items">
-        <li class="price-item"><div class="price-item-dot">✓</div>Carte de fidélité numérique</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>Paiement en ligne (Stripe)</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>Notifications SMS</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>PWA incluse</li>
-        <li class="price-item"><div class="price-item-dot">✓</div>Tout besoin spécifique</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Tout besoin qui dépasse les formules standard</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Paiement en ligne intégré (frais Stripe à la charge du client)</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Fonctionnalités avancées sur-mesure</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Étudié et chiffré au cas par cas</li>
+        <li class="price-item"><div class="price-item-dot">✓</div>Bugs & pannes corrigés à vie · Prise en main accompagnée 6 mois</li>
       </ul>
       <div class="price-opts">
         <div class="price-opts-title">Options</div>
@@ -1047,7 +1148,8 @@ footer{padding:48px 0;border-top:1px solid var(--b);text-align:center;}
       <a class="price-cta" href="#" onclick="toggleDrawer()">Obtenir un devis →</a>
     </div>
   </div>
-  <p style="font-size:12px;color:var(--m);margin-top:16px;text-align:center;">* Délais indicatifs, incluant les échanges et les allers-retours de modifications. Je travaille sur chaque projet avec soin, pas à la chaîne.</p>
+  <p style="font-size:12px;color:var(--m);margin-top:12px;text-align:center;">* Délais indicatifs, incluant les échanges et les allers-retours de modifications. Je travaille sur chaque projet avec soin, pas à la chaîne.</p>
+  <p style="font-size:12px;color:var(--m);margin-top:6px;text-align:center;">** Un aller-retour correspond à une phase de révision : je vous livre une première version du site, vous la consultez tranquillement et me transmettez vos retours (textes, couleurs, ajustements...), je les intègre. Ce cycle est inclus dans le prix. Au-delà, chaque révision supplémentaire reste accessible à partir de 15€.</p>
 </div>
 </div><!-- /wrap -->
 
